@@ -12,6 +12,7 @@ interface ILofinForm {
   username: string;
   password: string;
   email: string;
+  errors?: string;
 }
 
 export default function Forms() {
@@ -20,11 +21,16 @@ export default function Forms() {
     watch,
     handleSubmit,
     formState: { errors },
+    setError,
+    reset,
+    resetField,
   } = useForm<ILofinForm>({
     mode: "onBlur",
   });
   const onValid = (data: ILofinForm) => {
     console.log("i'm valid");
+    setError("errors", { message: "backend is offline" });
+    setError("username", { message: "username is taken" });
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
@@ -44,6 +50,7 @@ export default function Forms() {
         type="text"
         placeholder="Username"
       />
+      {errors.username?.message}
       <input
         {...register("email", {
           required: "email is required",
@@ -67,6 +74,7 @@ export default function Forms() {
         placeholder="password"
       />
       <input type="submit" value="create Account " />
+      {errors.errors?.message}
     </form>
   );
 }
