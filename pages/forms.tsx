@@ -15,7 +15,14 @@ interface ILofinForm {
 }
 
 export default function Forms() {
-  const { register, watch, handleSubmit } = useForm<ILofinForm>({});
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ILofinForm>({
+    mode: "onBlur",
+  });
   const onValid = (data: ILofinForm) => {
     console.log("i'm valid");
   };
@@ -40,10 +47,18 @@ export default function Forms() {
       <input
         {...register("email", {
           required: "email is required",
+          validate: {
+            notGmail: (value) =>
+              !value.includes("@gmail.com") ? "" : "Gmail is not allowed",
+          },
         })}
         type="email"
         placeholder="Email"
+        className={`${
+          Boolean(errors.email?.message) ? "border border-red-500" : ""
+        }`}
       />
+      {errors.email?.message}
       <input
         {...register("password", {
           required: "password is required",
