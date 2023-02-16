@@ -25,9 +25,10 @@ const Enter: NextPage = () => {
     reset();
     setMethod("phone");
   };
-  const onValid = (data: IEnterForm) => {
-    enter(data);
+  const onValid = (validForm: IEnterForm) => {
+    enter(validForm);
   };
+  console.log(`loading ${loading} data ${data} error ${error}`);
   return (
     <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Enter to Carrot</h3>
