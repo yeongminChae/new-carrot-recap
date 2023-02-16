@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useMutation from "@/libs/client/useMutation";
 import { cls } from "@/libs/client/utils";
-import Input from ""@/components/input";
-import Button from ""@/components/button";
+import Input from "@/components/input";
+import Button from "@/components/button";
 
 interface IEnterForm {
   email?: string;
@@ -13,7 +13,6 @@ interface IEnterForm {
 
 const Enter: NextPage = () => {
   const [enter, { loading, data, error }] = useMutation("/api/users/enter");
-  const [submitting, setSubmitting] = useState(false);
   const { register, reset, handleSubmit } = useForm<IEnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => {
@@ -25,9 +24,9 @@ const Enter: NextPage = () => {
     setMethod("phone");
   };
   const onValid = (validForm: IEnterForm) => {
+    if (loading) return;
     enter(validForm);
   };
-  console.log(`loading ${loading} data ${data} error ${error}`);
   return (
     <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Enter to Carrot</h3>
@@ -82,9 +81,11 @@ const Enter: NextPage = () => {
               required
             />
           ) : null}
-          {method === "email" ? <Button text={"Get login link"} /> : null}
+          {method === "email" ? (
+            <Button text={loading ? "LOADING" : "Get login link"} />
+          ) : null}
           {method === "phone" ? (
-            <Button text={submitting ? "LOADING" : "Get one-time password"} />
+            <Button text={loading ? "LOADING" : "Get one-time password"} />
           ) : null}
         </form>
 
