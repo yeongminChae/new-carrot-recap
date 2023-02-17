@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { json } from "stream/consumers";
 
-interface IUseMutationState {
+interface IUseMutationState<T> {
   loading: boolean;
-  data?: object;
+  data?: T;
   error?: object;
 }
-type UseMutationResult = [(data?: any) => void, IUseMutationState];
+type UseMutationResult<T> = [(data?: any) => void, IUseMutationState<T>];
 
-export default function UseMutation(url: string): UseMutationResult {
+export default function UseMutation<T = any>(
+  url: string
+): UseMutationResult<T> {
   const [state, setState] = useState({
     loading: false,
     data: undefined,
