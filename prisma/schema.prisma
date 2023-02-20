@@ -1,5 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// if error happpned next to use npx prisma studio, do the db push and then generate.
 
 generator client {
   provider = "prisma-client-js"
